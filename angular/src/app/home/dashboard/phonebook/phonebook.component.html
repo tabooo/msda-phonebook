@@ -1,0 +1,177 @@
+<div class="content-wrapper">
+  <button type="button" class="btn btn-primary btn-xs" style="display: none" (click)="showTest()" id="showButton"
+          #showButtonS>
+    <i class="fa fa-eye"> ++++++</i>
+  </button>
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title" style='font-family: "BPG Mrgvlovani Caps", sans-serif; font-weight: bold'>
+              ტელეფონების წიგნაკი</h3>
+          </div>
+          <tabset #mainTabset>
+            <tab [active]="true">
+              <ng-template tabHeading>
+                <span style='font-family: "BPG Mrgvlovani Caps", sans-serif; font-weight: bold'>დეტალური ძებნა</span>
+              </ng-template>
+              <div class="box" style="border-top: none;" [ngBusy]="{busy: busy, message: 'გთხოვთ დაელოდოთ...'}">
+                <div class="box-body">
+                  <form #searchForm="ngForm">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label style="overflow: hidden; white-space: nowrap; margin-top: 10px;">ტელეფონი</label>
+                        <input type="text" class="form-control" [(ngModel)]="filterBody.phone"
+                               name="phone"
+                               (keyup.enter)="search()" placeholder="">
+                      </div>
+
+                      <div class="col-md-4">
+                        <label style="overflow: hidden; white-space: nowrap; margin-top: 10px;">გვარი</label>
+                        <input type="text" class="form-control" [(ngModel)]="filterBody.lastName"
+                               name="lastName"
+                               (keyup.enter)="search()">
+                      </div>
+
+                      <div class="col-md-4">
+                        <label style="overflow: hidden; white-space: nowrap; margin-top: 10px;">სახელი</label>
+                        <input type="text" class="form-control" [(ngModel)]="filterBody.firstName"
+                               name="firstName"
+                               (keyup.enter)="search()">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="box-footer" class="text-center">
+                        <button type="button" class="btn btn-primary" (click)="clearForm()"
+                                style="margin-top: 5px; margin-right: 5px;">
+                          <i class="fa fa-eraser"></i> გასუფთავება
+                        </button>
+                        <button type="button" class="btn btn-primary" (click)="search()"
+                                style="margin-top: 5px;">
+                          <i class="fa fa-search"></i> ძებნა
+                        </button>
+                      </div>
+                    </div>
+                    <hr style="width: 100%; color: black; height: 1px; background-color:black;"/>
+                  </form>
+
+                  <div class="row">
+                    <button type="button" class="btn btn-success" (click)="openPhoneDetailModal()"
+                            style="margin-top: 5px; margin-right: 5px; margin-left: 10px;">
+                      <i class="fa fa-plus-circle"></i> დამატება
+                    </button>
+                  </div>
+
+                  <div class="box-body table-responsive no-padding" *ngIf="resultData && resultData.length>0">
+                    <table class="table table-hover">
+                      <tr>
+                        <th>სახელი</th>
+                        <th>გვარი</th>
+                        <th>ტელეფონი</th>
+                        <th>შექმნის თარიღი</th>
+                        <th>დეტალურად</th>
+                      </tr>
+                      <tr
+                        *ngFor="let result of resultData | paginate: {id: 'persons_paging', itemsPerPage: filterBody.maxResult, currentPage: p, totalItems: total}; let i = index">
+                        <td>
+                          <a href="javascript:void(0)" (click)="openPhoneDetailModal(result)">
+                            {{result.firstName}}
+                          </a>
+                        </td>
+                        <td>
+                          {{result.lastName}}
+                        </td>
+                        <td>
+                          {{result.phone}}
+                        </td>
+                        <td>
+                          {{result.insertDate | date: 'yyyy/MM/dd HH:mm'}}
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-primary btn-xs" (click)="openPhoneDetail(result)">
+                            <i class="fa fa-eye"> დეტალურად</i>
+                          </button>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="pull-left" *ngIf="total>0">
+                    ნაჩვენებია <strong>{{resultData.length}}</strong> ჩანაწერი <strong>{{total}}</strong>–დან
+                  </div>
+                  <!-- /.box-body -->
+                  <pagination-controls
+                    class="pull-right"
+                    (pageChange)="refresh($event)"
+                    id="persons_paging"
+                    autoHide="true"
+                    responsive="true"
+                    previousLabel="წინა"
+                    nextLabel="შემდეგი">
+                  </pagination-controls>
+                </div>
+              </div>
+
+            </tab>
+            <tab *ngFor="let tabz of tabs"
+                 [active]="tabz.active"
+                 [removable]="tabz.removable"
+                 (removed)="removeTabHandler(tabz)"
+                 (select)="selectTabHandler(tabz)">
+              <ng-template tabHeading>
+                <span style='font-family: "BPG Mrgvlovani Caps", sans-serif; font-weight: bold'>{{tabz.title}}</span>
+              </ng-template>
+              <app-phone-detail [phoneId]="tabz.phoneId" [tabs]="tabs"
+                                [mainTabset]="mainTabset" [curTab]="tabz"
+                                *ngIf="tabz.personId && tabz.personType"></app-phone-detail>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<bs-modal [cssClass]="modalCssClass2" #modalPhoneDetail>
+  <bs-modal-header [showDismiss]="true">
+    <h4 class="modal-title"></h4>
+  </bs-modal-header>
+  <bs-modal-body [ngBusy]="{busy: busyPhoneDetail, message: 'გთხოვთ დაელოდოთ...'}">
+    <form #phoneDetailForm="ngForm">
+      <div class="row">
+        <div class="col-md-12">
+          <label style="overflow: hidden; white-space: nowrap; margin-top: 10px;">ტელეფონი</label>
+          <input type="text" class="form-control" [(ngModel)]="tmpPhoneDetail.phone"
+                 name="tmpPhone">
+        </div>
+
+        <div class="col-md-12">
+          <label style="overflow: hidden; white-space: nowrap; margin-top: 10px;">გვარი</label>
+          <input type="text" class="form-control" [(ngModel)]="tmpPhoneDetail.lastName"
+                 name="tmpLastName">
+        </div>
+
+        <div class="col-md-12">
+          <label style="overflow: hidden; white-space: nowrap; margin-top: 10px;">სახელი</label>
+          <input type="text" class="form-control" [(ngModel)]="tmpPhoneDetail.firstName"
+                 name="tmpFirstName">
+        </div>
+        <div class="col-md-12" *ngIf="tmpPhoneDetailMsg.length>0">
+          <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-ban"></i> შეტყობინება!</h4>
+            {{tmpPhoneDetailMsg}}
+          </div>
+        </div>
+      </div>
+    </form>
+  </bs-modal-body>
+  <bs-modal-footer [showDefaultButtons]="false">
+    <button type="button" class="btn btn-primary" (click)="savePhone()"
+            style="margin-top: 5px;">
+      <i class="fa fa-save"></i> შენახვა
+    </button>
+  </bs-modal-footer>
+</bs-modal>

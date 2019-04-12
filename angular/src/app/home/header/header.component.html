@@ -1,0 +1,67 @@
+<header class="main-header">
+
+  <!-- Logo -->
+  <a href="/" class="logo" style="display: none; visibility: hidden">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini"><b>სუს</b></span>
+    <!-- logo for regular state and mobile devices -->
+    <span class="logo-lg"><b>ინფო</b></span>
+  </a>
+
+  <!-- Header Navbar: style can be found in header.less -->
+  <nav class="navbar navbar-static-top">
+    <!-- Sidebar toggle button-->
+    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+      <span class="sr-only">Toggle navigation</span>
+    </a>
+    <!-- Navbar Right Menu -->
+    <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        <!-- Messages: style can be found in dropdown.less-->
+        <!-- User Account: style can be found in dropdown.less -->
+        <li class="dropdown user user-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="assets/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+            <span class="hidden-xs">{{authUser.added.fullName}}</span>
+          </a>
+          <ul class="dropdown-menu">
+            <!-- User image -->
+            <li class="user-header" style="background-color: #1e282c;">
+              <img src="assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+              <p>
+                {{authUser.added.fullName}} - თანამშრომელი
+                <!--<small>Member since Nov. 2012</small>-->
+              </p>
+            </li>
+            <!-- Menu Body -->
+            <!--<li class="user-body">
+              <div class="row">
+                &lt;!&ndash;<div class="col-xs-4 text-center">
+                  <a href="#"><i class="fa fa-cog"> პარამეტრები</i></a>
+                </div>&ndash;&gt;
+                &lt;!&ndash;<div class="col-xs-4 text-center">
+                  <a href="#">Sales</a>
+                </div>
+                <div class="col-xs-4 text-center">
+                  <a href="#">Friends</a>
+                </div>&ndash;&gt;
+              </div>
+              &lt;!&ndash; /.row &ndash;&gt;
+            </li>-->
+            <!-- Menu Footer-->
+            <li class="user-footer" style="background-color: #222d32;">
+              <div class="pull-left">
+                <a href="javascript:void(0)" (click)="openProfilePage()" class="btn btn-default btn-flat">პროფილი</a>
+              </div>
+              <div class="pull-right">
+                <a href="javascript:;" (click)="logout()" class="btn btn-default btn-flat">გასვლა</a>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
+</header>

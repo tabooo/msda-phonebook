@@ -1,0 +1,238 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box" [ngBusy]="{busy: busy, message: 'გთხოვთ დაელოდოთ...'}">
+          <div class="box-header">
+            <h3 class="box-title">მომხმარებლები</h3>
+          </div>
+          <!-- /.box-header -->
+
+          <div class="container" style="width: 100%">
+            <div class="box box-primary">
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="userName">მომხმარებელი</label>
+                    <input type="text" class="form-control" id="userName" [(ngModel)]="filterBody.userName"
+                           (keyup.enter)="search()" placeholder="">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="box-footer" class="text-center">
+                    <button type="button" class="btn btn-primary" (click)="search()" style="margin-top: 5px;">
+                      <i class="fa fa-search"></i> ძებნა
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-body table-responsive no-padding">
+            <button type="button" class="btn btn-success btn-xs" (click)="openUserForm(null)"
+                    style="margin: 5px;">
+              <i class="fa fa-plus-circle"> მომხმარებლის დამატება</i>
+            </button>
+
+            <table class="table table-hover">
+              <tr>
+                <th>მომხმარებელი</th>
+                <th>სახელი</th>
+                <th>ტელეფონი</th>
+                <th>ელ. ფოსტა</th>
+                <th>სტატუსი</th>
+                <th>ქმედება</th>
+              </tr>
+              <tr
+                *ngFor="let result of users | paginate: {id: 'users_paging', itemsPerPage: filterBody.maxResult, currentPage: p, totalItems: total}; let i = index">
+                <td>
+                  {{result.userName}}
+                </td>
+                <td>
+                  {{result.fullName}}
+                </td>
+                <td>
+                  {{result.phone}}
+                </td>
+                <td>
+                  {{result.email}}
+                </td>
+                <td>
+                  {{result.userStateId==1?'აქტიური':'გაუქმებული'}}
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary btn-xs" (click)="openUserRightsModal(result)">
+                    <i class="fa fa-cog"> უფლებები</i>
+                  </button>
+
+                  <button type="button" class="btn btn-warning btn-xs" (click)="openUserForm(result)"
+                          style="margin-left: 3px;">
+                    <i class="fa fa-pencil-square"> რედაქტირება</i>
+                  </button>
+
+                  <button type="button" class="btn btn-danger btn-xs" (click)="deleteUser(result)"
+                          style="margin-left: 3px;">
+                    <i class="fa fa-trash"> წაშლა</i>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+</div>
+<bs-modal #modal [ngBusy]="{busy: busyModal, message: 'გთხოვთ დაელოდოთ...'}">
+  <bs-modal-header [showDismiss]="true">
+    <h4 class="modal-title">{{currentUser.userName}} ({{currentUser.fullName}})</h4>
+  </bs-modal-header>
+  <bs-modal-body>
+    <div class="col-md-6">
+      <table class="table table-hover table-bordered">
+        <thead>
+        <th colspan="2">უფლებები</th>
+        </thead>
+        <tr
+          *ngFor="let right of uerRightObject.otherRights; let i = index">
+          <td>
+            {{right.rightName}}
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary btn-xs" (click)="addRight(right)">
+              <i class="fa fa-arrow-right"></i>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <table class="table table-hover table-bordered">
+        <thead>
+        <th colspan="2">ჩართული უფლებები</th>
+        </thead>
+        <tr
+          *ngFor="let right of uerRightObject.userRights; let i = index">
+          <td>
+            <button type="button" class="btn btn-primary btn-xs" (click)="removeRight(right)">
+              <i class="fa fa-arrow-left"></i>
+            </button>
+          </td>
+          <td>
+            {{right.rightName}}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </bs-modal-body>
+  <bs-modal-footer [showDefaultButtons]="false"></bs-modal-footer>
+</bs-modal>
+
+<bs-modal #modalUser [ngBusy]="{busy: busyModalUser, message: 'გთხოვთ დაელოდოთ...'}">
+  <bs-modal-header [showDismiss]="true">
+    <h4 class="modal-title">{{editUser.userName}} ({{editUser.fullName}})</h4>
+  </bs-modal-header>
+  <bs-modal-body>
+    <div class="row">
+      <div class="box box-info">
+        <div class="form-horizontal">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">მომხმარებელი</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="editUser.userName">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">სახელი გვარი</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="editUser.fullName">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">პირადი ნომერი</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="editUser.personalNo">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">მისამართი</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="editUser.adress">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">ელ. ფოსტა</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="editUser.email">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">ტელეფონი</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="editUser.phone">
+              </div>
+            </div>
+
+            <div class="form-group" [hidden]="editUser.userId">
+              <label class="col-sm-3 control-label">პაროლი</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="editUser.password">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </bs-modal-body>
+  <bs-modal-footer [showDefaultButtons]="false">
+    <button type="submit" class="btn btn-warning pull-left" (click)="modalUserChangePassword.open()"
+            *ngIf="editUser && editUser.userId">პაროლის შეცვლა
+    </button>
+
+    <button type="button" class="btn btn-default" (click)="modalUser.close();">დახურვა</button>
+    <button type="submit" class="btn btn-info pull-right" (click)="saveUser()">
+      <i class="fa fa-save"></i> შენახვა
+    </button>
+  </bs-modal-footer>
+</bs-modal>
+
+<bs-modal #modalUserChangePassword [ngBusy]="{busy: busyModalUserChangePassword, message: 'გთხოვთ დაელოდოთ...'}">
+  <bs-modal-header [showDismiss]="true">
+    <h4 class="modal-title">პაროლის შეცვლა</h4>
+  </bs-modal-header>
+  <bs-modal-body>
+    <div class="row">
+      <div class="box box-info">
+        <div class="form-horizontal">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-4 control-label">ახალი პაროლი</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" [(ngModel)]="newPassword">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </bs-modal-body>
+  <bs-modal-footer [showDefaultButtons]="false">
+    <button type="button" class="btn btn-default" (click)="modalUserChangePassword.close();">დახურვა</button>
+    <button type="submit" class="btn btn-info pull-right" (click)="saveUserPassword()">
+      <i class="fa fa-save"></i> შენახვა
+    </button>
+  </bs-modal-footer>
+</bs-modal>

@@ -1,0 +1,36 @@
+<aside class="main-sidebar" style="height:100%">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel" style="margin-top: -45px">
+      <div class="image">
+        <img src="assets/dist/img/logo-mia.png" class="img-circle" alt="User Image"
+             style="width:70%;max-width: 117px;border-radius:0%;display: block; margin-left: auto; margin-right: auto;">
+      </div>
+      <!--<img src="assets/dist/img/logo.png" style="display: block; margin-left: auto; margin-right: auto;">-->
+    </div>
+
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <!--<li class="header">ნავიგაცია</li>-->
+      <li class="{{activeMenu === 'phonebook' ? 'active' : ''}}" (click)="setActiveMenu('phonebook')">
+        <a href="javascript;" routerLink='/phonebook'>
+          <i class="fa fa-users"></i>
+          <span>წიგნაკი</span>
+        </a>
+      </li>
+      <li class="header">ადმინისტრირება</li>
+      <li class="{{activeMenu === 'users' ? 'active' : ''}}" (click)="setActiveMenu('users')"
+        [hidden]="!hasPermissions(['USER_ADD_EDIT'])">
+        <a href="javascript;" routerLink='/users'>
+          <i class="fa fa-users"></i>
+          <span>მომხმარებლები</span>
+        </a>
+      </li>
+    </ul>
+    <span id="copyrightFooter" style="position:fixed;bottom:0; color:white;text-align: center; width: 230px;">&copy;
+      2018<br>სსიპ ოპერატიულ–ტექნიკური სააგენტო.
+    </span>
+  </section>
+  <!-- /.sidebar -->
+</aside>

@@ -1,0 +1,53 @@
+<div class="hold-transition login-page">
+  <div class="content-wrapper" id="loginBodyDiv"
+       style='background-image: url("../../assets/dist/img/logo_background.png");
+       background-position: center;
+       background-repeat: no-repeat;
+       background-color: #272c33;
+       margin-left: 0px;
+       bottom: 50px;
+       position: fixed;
+       width:100%;
+       top: 50px;'>
+    <!-- Main content -->
+    <section class="content">
+      <div class="login-box" style="width: 600px;">
+        <div class="login-box-body"
+             style="border: #cdcdcd; border-style: solid; border-width: 1px; background: #272c33;">
+          <p
+            style='font-family: "BPG Mrgvlovani Caps", sans-serif; font-weight: bold; font-size: 23px;color: #cdcdcd; text-align: center'>
+            სახელმწიფო უსაფრთხოების სამსახურის <br>სამსახურებრივი ინფორმაცია
+          </p>
+          <br><br>
+
+          <div style="width: 50%;margin: auto;">
+            <div class="form-group has-feedback">
+              <input type="text" [(ngModel)]="mUsername" name="username" class="form-control"
+                     placeholder="მომხმარებელი" (keyup.enter)="onClickSubmit()" #userNameField>
+              <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+              <input type="password" [(ngModel)]="mPassword" name="password" class="form-control" placeholder="პაროლი"
+                     (keyup.enter)="onClickSubmit()" #passwordField>
+              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+
+            <br>
+            <div class="row">
+              <div class="col-xs-12" style="padding-left: 0px;">
+                <button (click)="onClickSubmit()" class="btn btn-primary"
+                        style="margin-left:auto;margin-right:auto;display:block;"
+                        #loginButton>
+                  <i class="fa fa-sign-in"></i> შესვლა
+                </button>
+              </div>
+            </div>
+            <br>
+            <div class="row alert alert-danger alert-dismissible" [innerHTML]="theHtmlString" [hidden]="!theHtmlString">
+            </div>
+          </div>
+        </div>
+        <!-- /.login-box-body -->
+      </div>
+    </section>
+  </div>
