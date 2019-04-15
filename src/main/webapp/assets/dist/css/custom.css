@@ -1,0 +1,99 @@
+.ngx-datepicker-calendar-container {
+  z-index: 1;
+}
+
+body {
+  font-family: "BPG Mrgvlovani", sans-serif;
+  font-display: block;
+  /*height: 100%;
+  min-height: 100%;*/
+}
+
+.dp-material {
+  font-family: sans-serif;
+}
+
+.dp-calendar-weekday {
+  font-size: 13px;
+}
+
+/*html { height:100%; }
+
+html, body {margin:0;padding:0;height:100%;}*/
+.wrapper {
+  width: 100%;
+  min-height: 100%;
+  height: auto !important;
+  position: absolute;
+}
+
+.content-wrapper {
+  bottom: 50px;
+  /*position: fixed;*/
+  /*width: 100%;*/
+  top: 50px;
+}
+
+.main-footer {
+  bottom: 0px;
+  position: fixed;
+  width: 100%;
+}
+
+.dp-material .dp-picker-input {
+  width: 100% !important;
+}
+
+/*.ui-select-match-text {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.ui-select-toggle > .btn.btn-link {
+  margin-right: 10px;
+  top: 6px;
+  position: absolute;
+  right: 10px;
+}*/
+
+ngx-select__choices {
+  width: auto !important;
+}
+
+.blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+.the-legend {
+  border-style: none;
+  border-width: 0;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 0;
+}
+
+.the-fieldset {
+  border: 2px groove threedface #444;
+  padding: 7px;
+  -webkit-box-shadow: 0px 0px 0px 0px #000;
+  box-shadow: 0px 0px 0px 0px #000;
+}
+
+td a {
+  text-decoration: underline;
+}

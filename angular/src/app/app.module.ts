@@ -29,23 +29,20 @@ import {AuthService} from './services/auth.service';
 import {ApiService} from './services/api.service';
 import {AuthFilterService} from './services/auth-filter.service';
 import {LoginFilterService} from './services/login-filter.service';
-import {PersonsComponent} from './home/dashboard/persons/persons.component';
 // import {TabsModule} from 'ng2-tabs';
-import {PersonComponent} from './home/dashboard/person/person.component';
 import {GlobalService} from './services/global.service';
 import {UsersComponent} from './home/dashboard/users/users.component';
 import {DpDatePickerModule} from 'ng2-date-picker';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {CollapseModule} from 'ngx-bootstrap/collapse';
 import {BsModalModule} from 'ng2-bs3-modal/ng2-bs3-modal';
-import {PersonsSearchModalComponent} from './home/dashboard/persons/persons-search-modal/persons-search-modal.component';
 import {ProfileComponent} from './home/dashboard/profile/profile.component';
 import {PhonebookComponent} from './home/dashboard/phonebook/phonebook.component';
 import {GroupsComponent} from './home/dashboard/groups/groups.component';
 import {GroupComponent} from './home/dashboard/groups/group/group.component';
 import {PhonebookSearchModalComponent} from './home/dashboard/phonebook/phonebook-search-modal/phonebook-search-modal.component';
 import {RegisterComponent} from './register/register.component';
-import { RecoverpasswordComponent } from './recoverpassword/recoverpassword.component';
+import {RecoverpasswordComponent} from './recoverpassword/recoverpassword.component';
 
 const routes: Routes = [
   {
@@ -122,10 +119,7 @@ const routes: Routes = [
     MenuComponent,
     DashboardComponent,
     NotfoundComponent,
-    PersonsComponent,
-    PersonComponent,
     UsersComponent,
-    PersonsSearchModalComponent,
     ProfileComponent,
     PhonebookComponent,
     GroupsComponent,
@@ -155,7 +149,7 @@ const routes: Routes = [
       storageType: 'localStorage'
     })
   ],
-  entryComponents: [PersonsSearchModalComponent, PhonebookSearchModalComponent],
+  entryComponents: [PhonebookSearchModalComponent],
   providers: [
     ApiService,
     AuthService,
