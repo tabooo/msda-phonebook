@@ -3,6 +3,7 @@ package phonebook.work.users;
 import org.springframework.stereotype.Component;
 import phonebook.security.filter.Securiry;
 import phonebook.util.Transaction;
+import phonebook.work.users.entities.Recover;
 import phonebook.work.users.entities.Right;
 import phonebook.work.users.entities.User;
 import phonebook.work.users.entities.UserRight;
@@ -10,8 +11,7 @@ import phonebook.work.users.entities.UserRight;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static phonebook.util.ObjectUtils.checkForNull;
 
@@ -148,6 +148,71 @@ public class UserService {
 
         } catch (Exception e) {
             return new Transaction.Builder<UserRight, Object>(false).description("დაფიქსირდა შეცდომა.").build();
+        }
+    }
+
+    @Transactional
+    public Transaction<User, ?> register(User user) {
+        try {
+            if (user.getUserName() == null || user.getEmail() == null || user.getFirstName() == null || user.getLastName() == null) {
+                return new Transaction.Builder<User, Object>(false).description("შეავსეთ აუცილებელი ველები").build();
+            }
+
+            if (user.getPassword() == null || user.getPassword2() == null || !user.getPassword().equals(user.getPassword2())) {
+                return new Transaction.Builder<User, Object>(false).description("არასწორი პაროლი").build();
+            }
+
+            List<User> dbUser = em.createQuery("select u from User u where u.userName=:userName", User.class)
+                    .setParameter("userName", user.getUserName()).getResultList();
+
+            if (dbUser != null && dbUser.size() > 0) {
+                return new Transaction.Builder<User, Object>(false).description("ასეთი მომხმარებლის სახელი უკვე რეგისტრირებულია").build();
+            }
+
+            user.setPassword(Securiry.hashPassword(user.getPassword()));
+            user.setState(1);
+
+            em.persist(user);
+
+            return new Transaction.Builder<User, Object>(true).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Transaction.Builder<User, Object>(false).description("დაფიქსირდა შეცდომა.").build();
+        }
+    }
+
+    public Transaction<User, ?> recoverPassword(String email) {
+        try {
+            if (email == null || email.trim().isEmpty()) {
+                return new Transaction.Builder<User, Object>(false).description("დაფიქსირდა შეცდომა.").build();
+            }
+
+            List<User> users = em.createQuery("select u from User u where u.state=1 and email=:email")
+                    .setParameter("email", email).getResultList();
+
+            if (users == null || users.size() < 1) {
+                return new Transaction.Builder<User, Object>(false).description("ასეთი ელ ფოსტით არ არის მომხარებელი რეგისტრირებული").build();
+            }
+
+            User user = users.get(0);
+
+            Calendar date = Calendar.getInstance();
+            long t = date.getTimeInMillis();
+            Date afterAddingTenMins = new Date(t + (10 * 60000));
+
+            Recover recover = new Recover();
+            recover.setEmail(email);
+            recover.setUserName(user.getUserName());
+            recover.setCode(UUID.randomUUID().toString());
+            recover.setStartTime(new Date());
+            recover.setEndTime(afterAddingTenMins);
+            recover.setState(1);
+
+            //TODO: ელ ფოსტაზე გაგზავნა
+            return new Transaction.Builder<User, Object>(true).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Transaction.Builder<User, Object>(false).description("დაფიქსირდა შეცდომა.").build();
         }
     }
 }

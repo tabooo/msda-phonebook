@@ -31,13 +31,25 @@
 
             <br>
             <div class="row">
-              <div class="col-xs-12" style="padding-left: 0px;">
+              <div class="col-xs-6" style="padding-left: 0px;">
                 <button (click)="onClickSubmit()" class="btn btn-primary"
                         style="margin-left:auto;margin-right:auto;display:block;"
                         #loginButton>
                   <i class="fa fa-sign-in"></i> შესვლა
                 </button>
               </div>
+              <div class="col-xs-6" style="padding-left: 5px;">
+                <button routerLink='/register' class="btn btn-primary"
+                        style="margin-left:auto;margin-right:auto;display:block;">
+                  რეგისტრაცია
+                </button>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <a href="javascript;" routerLink='/recoverpassword' style="color:white; margin-left: 20px;">
+                <span>პაროლის აღდგენა</span>
+              </a>
             </div>
             <br>
             <div class="row alert alert-danger alert-dismissible" [innerHTML]="theHtmlString" [hidden]="!theHtmlString">

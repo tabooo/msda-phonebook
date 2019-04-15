@@ -50,6 +50,9 @@ public class User implements Serializable {
     @Transient
     List<String> rights;
 
+    @Transient
+    private String password2;
+
 
     public List<String> getRights() {
         return rights;
@@ -121,5 +124,13 @@ public class User implements Serializable {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
     }
 }

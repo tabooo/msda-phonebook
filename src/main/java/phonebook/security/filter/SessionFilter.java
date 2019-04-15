@@ -21,7 +21,7 @@ public class SessionFilter implements Filter {
     private static final String RESPONSE_JSON = "{\"valid\":\"%s\",\"description\":\"%s\"}";
     private static final String AUTHENTICATION_PATH = "/user/authenticate";
     private static final List<String> IGNORE_LIST = Arrays.asList(new String[]{"/user/authenticate", "/user/isLogin",
-            "/user/sendAuthenticateCode", "/user/getAuthenticateCode", "/user/searchUser"});
+            "/user/register", "/user/recoverPassword"});
 
     private static Set<String> ALLOWED_ORIGINS = new HashSet<>();
 

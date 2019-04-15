@@ -44,6 +44,8 @@ import {PhonebookComponent} from './home/dashboard/phonebook/phonebook.component
 import {GroupsComponent} from './home/dashboard/groups/groups.component';
 import {GroupComponent} from './home/dashboard/groups/group/group.component';
 import {PhonebookSearchModalComponent} from './home/dashboard/phonebook/phonebook-search-modal/phonebook-search-modal.component';
+import {RegisterComponent} from './register/register.component';
+import { RecoverpasswordComponent } from './recoverpassword/recoverpassword.component';
 
 const routes: Routes = [
   {
@@ -89,6 +91,16 @@ const routes: Routes = [
     canActivate: [LoginFilterService]
   },
   {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [LoginFilterService]
+  },
+  {
+    path: 'recoverpassword',
+    component: RecoverpasswordComponent,
+    canActivate: [LoginFilterService]
+  },
+  {
     path: 'home',
     component: HomeComponent
   },
@@ -118,7 +130,9 @@ const routes: Routes = [
     PhonebookComponent,
     GroupsComponent,
     GroupComponent,
-    PhonebookSearchModalComponent
+    PhonebookSearchModalComponent,
+    RegisterComponent,
+    RecoverpasswordComponent
   ],
   imports: [
     BrowserModule,

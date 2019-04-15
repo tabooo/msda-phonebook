@@ -25,32 +25,32 @@ export class AuthService {
       });
   }
 
-  sendAuthenticateCode(code): Observable<any> {
-    return this.api.get('/user/sendAuthenticateCode', {code: code})
-      .map(data => {
-        return data.json();
-
-      }, error => {
-        return error;
-      });
-  }
-
-  getAuthenticateCode(): Observable<any> {
-    return this.api.get('/user/getAuthenticateCode', {})
-      .map(data => {
-        return data.json();
-
-      }, error => {
-        return error;
-      });
-  }
-
   logout(): Observable<any> {
     return this.api.get('/user/logOut', {})
       .map(data => {
         this.localStorageService.clearAll();
         this.router.navigate(['/login']);
         return data;
+      }, error => {
+        return error;
+      });
+  }
+
+  register(request): Observable<any> {
+    return this.api.post('/user/register', {}, request)
+      .map(data => {
+        return data.json();
+
+      }, error => {
+        return error;
+      });
+  }
+
+  recoverPassword(request): Observable<any> {
+    return this.api.get('/user/recoverPassword', request)
+      .map(data => {
+        return data.json();
+
       }, error => {
         return error;
       });

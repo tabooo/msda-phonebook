@@ -107,4 +107,14 @@ public class UserController {
     public Transaction<UserRight, ?> removeUserRight(@RequestParam Integer userId, @RequestParam Integer rightId) {
         return repository.removeUserRight(userId, rightId);
     }
+
+    @RequestMapping("/register")
+    public Transaction<User, ?> register(@RequestBody User user) {
+        return repository.register(user);
+    }
+
+    @RequestMapping("/recoverPassword")
+    public Transaction<User, ?> recoverPassword(@RequestParam String email) {
+        return repository.recoverPassword(email);
+    }
 }

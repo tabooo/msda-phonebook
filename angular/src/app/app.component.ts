@@ -9,9 +9,5 @@ export class AppComponent {
   title = 'app';
 
   constructor() {
-
-    if (window.document.location.hostname == 'portal.mia.gov.ge') {
-      window.document.getElementById('appFavIcon').setAttribute('href', 'favicon_mia.ico');
-    }
   }
 }
