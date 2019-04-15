@@ -6,7 +6,7 @@ import {HttpParams} from '@angular/common/http';
 @Injectable()
 export class ApiService {
 
-  private url = 'http://localhost:8083/phonebook/restapi';
+  private url = 'http://localhost:8083/restapi';
 
   private requestOptions: RequestOptions = null;
 
