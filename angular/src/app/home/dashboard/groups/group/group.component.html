@@ -1,0 +1,70 @@
+<div class="nav-tabs-custom" style="padding-top:5px;">
+  <button type="button" class="btn btn-primary btn-xs" style="display: none" (click)="showTest()" id="showButton"
+          #showButton>
+    <i class="fa fa-eye"> ++++++</i>
+  </button>
+  <div class="box" style="border-top: none;" [ngBusy]="{busy: busy, message: 'გთხოვთ დაელოდოთ...'}">
+    <div class="box-body">
+      <div class="row">
+        <div class="col-md-4">
+          დასახელება: <b>{{group.name}}</b>
+        </div>
+
+        <div class="col-md-4">
+          შექმნის თარიღი: <b>{{group.insertDate | date: 'yyyy/MM/dd HH:mm'}}</b>
+        </div>
+
+        <div class="col-md-4">
+          განახლების თარიღი: <b> {{group.updateDate | date: 'yyyy/MM/dd HH:mm'}}</b>
+        </div>
+      </div>
+      <hr style="width: 100%; color: black; height: 1px; background-color:black;"/>
+
+      <div class="row">
+        <button type="button" class="btn btn-success" (click)="openPhoneSearchModal()"
+                style="margin-top: 5px; margin-right: 5px; margin-left: 10px;">
+          <i class="fa fa-plus-circle"></i> ნომრის დამატება
+        </button>
+      </div>
+
+      <div class="box-body table-responsive no-padding" *ngIf="group && group.phones.length>0">
+        <table class="table table-hover">
+          <tr>
+            <th>სახელი</th>
+            <th>გვარი</th>
+            <th>ტელეფონი</th>
+            <th>წაშლა</th>
+          </tr>
+          <tr
+            *ngFor="let result of group.phones">
+            <td>
+              {{result.firstName}}
+            </td>
+            <td>
+              {{result.lastName}}
+            </td>
+            <td>
+              {{result.phone}}
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger btn-xs"
+                      (click)="removeGroupPhone(result.phoneId)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<bs-modal [cssClass]="modalCssClass" (onHide)="getGroup()" #modalSearchPhones>
+  <bs-modal-header [showDismiss]="true">
+    <h4 class="modal-title"></h4>
+  </bs-modal-header>
+  <bs-modal-body>
+    <template #searchPhonesBody></template>
+  </bs-modal-body>
+  <bs-modal-footer [showDefaultButtons]="false"></bs-modal-footer>
+</bs-modal>

@@ -61,10 +61,6 @@ export class PhonebookComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.phoneId = params['phoneId'];
     });
-
-    if (this.phoneId) {
-      this.openPhoneDetail(null);
-    }
   }
 
   search() {
@@ -95,16 +91,6 @@ export class PhonebookComponent implements OnInit {
     this.searchForm.reset();
   }
 
-  openPhoneDetail(phone) {
-    if (phone) {
-      this.globalService.openPerson(phone, this.tabs, this.mainTabset, this.myDiv);
-    } else {
-      this.globalService.openPerson({
-        phoneId: this.phoneId
-      }, this.tabs, this.mainTabset, this.myDiv);
-    }
-  }
-
   removeTabHandler(tab: any): void {
     if (this.tabs.indexOf(tab) == 0) {
       const url = this.router.createUrlTree(['/phonebook']).toString();
@@ -127,6 +113,12 @@ export class PhonebookComponent implements OnInit {
       } else {
         this.tmpPhoneDetailMsg = data.description;
       }
+    });
+  }
+
+  removePhone(phoneId) {
+    this.busyPhoneDetail = this.phonebookService.removePhone({phoneId: phoneId}).subscribe(data => {
+      this.search();
     });
   }
 

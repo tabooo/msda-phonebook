@@ -4,7 +4,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel" style="margin-top: -45px">
       <div class="image">
-        <img src="assets/dist/img/logo-mia.png" class="img-circle" alt="User Image"
+        <img src="assets/dist/img/phonebook_logo.png" class="img-circle" alt="User Image"
              style="width:70%;max-width: 117px;border-radius:0%;display: block; margin-left: auto; margin-right: auto;">
       </div>
       <!--<img src="assets/dist/img/logo.png" style="display: block; margin-left: auto; margin-right: auto;">-->
@@ -15,15 +15,21 @@
       <!--<li class="header">ნავიგაცია</li>-->
       <li class="{{activeMenu === 'phonebook' ? 'active' : ''}}" (click)="setActiveMenu('phonebook')">
         <a href="javascript;" routerLink='/phonebook'>
-          <i class="fa fa-users"></i>
+          <i class="fa fa-phone"></i>
           <span>წიგნაკი</span>
+        </a>
+      </li>
+      <li class="{{activeMenu === 'groups' ? 'active' : ''}}" (click)="setActiveMenu('groups')">
+        <a href="javascript;" routerLink='/groups'>
+          <i class="fa fa-users"></i>
+          <span>ჯგუფები</span>
         </a>
       </li>
       <li class="header">ადმინისტრირება</li>
       <li class="{{activeMenu === 'users' ? 'active' : ''}}" (click)="setActiveMenu('users')"
         [hidden]="!hasPermissions(['USER_ADD_EDIT'])">
         <a href="javascript;" routerLink='/users'>
-          <i class="fa fa-users"></i>
+          <i class="fa fa-user"></i>
           <span>მომხმარებლები</span>
         </a>
       </li>

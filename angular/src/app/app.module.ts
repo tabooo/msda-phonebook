@@ -41,7 +41,9 @@ import {BsModalModule} from 'ng2-bs3-modal/ng2-bs3-modal';
 import {PersonsSearchModalComponent} from './home/dashboard/persons/persons-search-modal/persons-search-modal.component';
 import {ProfileComponent} from './home/dashboard/profile/profile.component';
 import {PhonebookComponent} from './home/dashboard/phonebook/phonebook.component';
-import {PhoneDetailComponent} from './home/dashboard/phonebook/phone-detail/phone-detail.component';
+import {GroupsComponent} from './home/dashboard/groups/groups.component';
+import {GroupComponent} from './home/dashboard/groups/group/group.component';
+import {PhonebookSearchModalComponent} from './home/dashboard/phonebook/phonebook-search-modal/phonebook-search-modal.component';
 
 const routes: Routes = [
   {
@@ -64,8 +66,12 @@ const routes: Routes = [
         component: PhonebookComponent
       },
       {
-        path: 'phonebook/:phoneId',
-        component: PersonsComponent
+        path: 'groups',
+        component: GroupsComponent
+      },
+      {
+        path: 'groups/:groupId',
+        component: GroupComponent
       },
       {
         path: 'users',
@@ -110,7 +116,9 @@ const routes: Routes = [
     PersonsSearchModalComponent,
     ProfileComponent,
     PhonebookComponent,
-    PhoneDetailComponent
+    GroupsComponent,
+    GroupComponent,
+    PhonebookSearchModalComponent
   ],
   imports: [
     BrowserModule,
@@ -133,7 +141,7 @@ const routes: Routes = [
       storageType: 'localStorage'
     })
   ],
-  entryComponents: [PersonsSearchModalComponent],
+  entryComponents: [PersonsSearchModalComponent, PhonebookSearchModalComponent],
   providers: [
     ApiService,
     AuthService,

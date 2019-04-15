@@ -689,7 +689,6 @@ export class PersonComponent implements OnInit {
 
   openCross(cross) {
     if (cross) {
-      this.globalService.openCross(cross, (cross.crossId + (cross.serverId ? '-' + cross.serverId : '')), this.tabs, this.mainTabset, this.myDiv, this.crossLibraries);
     }
   }
 

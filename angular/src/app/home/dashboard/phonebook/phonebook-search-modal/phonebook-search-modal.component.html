@@ -1,0 +1,98 @@
+<div class="box-body table-responsive no-padding">
+  <button type="button" class="btn btn-primary btn-xs" style="display: none" (click)="showTest()" id="showButton"
+          #showButton>
+    <i class="fa fa-eye"> ++++++</i>
+  </button>
+  <div class="box" style="border-top: none;" [ngBusy]="{busy: busy, message: 'გთხოვთ დაელოდოთ...'}">
+    <div class="box-body">
+      <form #searchForm="ngForm">
+        <div class="row">
+          <div class="col-md-4">
+            <label style="overflow: hidden; white-space: nowrap; margin-top: 10px;">ტელეფონი</label>
+            <input type="text" class="form-control" [(ngModel)]="filterBody.phone"
+                   name="phone"
+                   (keyup.enter)="search()" placeholder="">
+          </div>
+
+          <div class="col-md-4">
+            <label style="overflow: hidden; white-space: nowrap; margin-top: 10px;">გვარი</label>
+            <input type="text" class="form-control" [(ngModel)]="filterBody.lastName"
+                   name="lastName"
+                   (keyup.enter)="search()">
+          </div>
+
+          <div class="col-md-4">
+            <label style="overflow: hidden; white-space: nowrap; margin-top: 10px;">სახელი</label>
+            <input type="text" class="form-control" [(ngModel)]="filterBody.firstName"
+                   name="firstName"
+                   (keyup.enter)="search()">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="box-footer" class="text-center">
+            <button type="button" class="btn btn-primary" (click)="clearForm()"
+                    style="margin-top: 5px; margin-right: 5px;">
+              <i class="fa fa-eraser"></i> გასუფთავება
+            </button>
+            <button type="button" class="btn btn-primary" (click)="search()"
+                    style="margin-top: 5px;">
+              <i class="fa fa-search"></i> ძებნა
+            </button>
+          </div>
+        </div>
+        <hr style="width: 100%; color: black; height: 1px; background-color:black;"/>
+      </form>
+
+      <div class="box-body table-responsive no-padding" *ngIf="resultData && resultData.length>0">
+        <table class="table table-hover">
+          <tr>
+            <th>სახელი</th>
+            <th>გვარი</th>
+            <th>ტელეფონი</th>
+            <th>შექმნის თარიღი</th>
+            <th>განახლების თარიღი</th>
+            <th>არჩევა</th>
+          </tr>
+          <tr
+            *ngFor="let result of resultData | paginate: {id: 'persons_paging', itemsPerPage: filterBody.maxResult, currentPage: p, totalItems: total}; let i = index">
+            <td>
+              {{result.firstName}}
+            </td>
+            <td>
+              {{result.lastName}}
+            </td>
+            <td>
+              {{result.phone}}
+            </td>
+            <td>
+              {{result.insertDate | date: 'yyyy/MM/dd HH:mm'}}
+            </td>
+            <td>
+              {{result.updateDate | date: 'yyyy/MM/dd HH:mm'}}
+            </td>
+            <td>
+              <button type="button" class="btn btn-success btn-xs" (click)="selectPhone(result)"
+                      *ngIf="!result.inserted">
+                <i class="fa fa-check"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="pull-left" *ngIf="total>0">
+        ნაჩვენებია <strong>{{resultData.length}}</strong> ჩანაწერი <strong>{{total}}</strong>–დან
+      </div>
+      <!-- /.box-body -->
+      <pagination-controls
+        class="pull-right"
+        (pageChange)="refresh($event)"
+        id="persons_paging"
+        autoHide="true"
+        responsive="true"
+        previousLabel="წინა"
+        nextLabel="შემდეგი">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

@@ -72,7 +72,8 @@
                         <th>გვარი</th>
                         <th>ტელეფონი</th>
                         <th>შექმნის თარიღი</th>
-                        <th>დეტალურად</th>
+                        <th>განახლების თარიღი</th>
+                        <th>წაშლა</th>
                       </tr>
                       <tr
                         *ngFor="let result of resultData | paginate: {id: 'persons_paging', itemsPerPage: filterBody.maxResult, currentPage: p, totalItems: total}; let i = index">
@@ -91,8 +92,11 @@
                           {{result.insertDate | date: 'yyyy/MM/dd HH:mm'}}
                         </td>
                         <td>
-                          <button type="button" class="btn btn-primary btn-xs" (click)="openPhoneDetail(result)">
-                            <i class="fa fa-eye"> დეტალურად</i>
+                          {{result.updateDate | date: 'yyyy/MM/dd HH:mm'}}
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-danger btn-xs" (click)="removePhone(result.phoneId)">
+                            <i class="fa fa-trash"></i>
                           </button>
                         </td>
                       </tr>
@@ -113,19 +117,6 @@
                   </pagination-controls>
                 </div>
               </div>
-
-            </tab>
-            <tab *ngFor="let tabz of tabs"
-                 [active]="tabz.active"
-                 [removable]="tabz.removable"
-                 (removed)="removeTabHandler(tabz)"
-                 (select)="selectTabHandler(tabz)">
-              <ng-template tabHeading>
-                <span style='font-family: "BPG Mrgvlovani Caps", sans-serif; font-weight: bold'>{{tabz.title}}</span>
-              </ng-template>
-              <app-phone-detail [phoneId]="tabz.phoneId" [tabs]="tabs"
-                                [mainTabset]="mainTabset" [curTab]="tabz"
-                                *ngIf="tabz.personId && tabz.personType"></app-phone-detail>
             </tab>
           </tabset>
         </div>

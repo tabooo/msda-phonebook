@@ -126,18 +126,10 @@ export class GlobalService {
       const url = this.router.createUrlTree(['/persons', data.personId, data.personType]).toString();
       this.location.go(url);
       this.localStorageService.set('activeMenu', 'persons');
-    } else if (data.car) {
-      const url = this.router.createUrlTree(['/cars', data.automobileId]).toString();
-      this.location.go(url);
-      this.localStorageService.set('activeMenu', 'cars');
-    } else if (data.transit) {
-      const url = this.router.createUrlTree(['/transit/', data.transNumber]).toString();
-      this.location.go(url);
-      this.localStorageService.set('activeMenu', 'cars');
     } else if (data.cross) {
-      const url = this.router.createUrlTree(['/bordercrosses/', data.crossIdString]).toString();
+      const url = this.router.createUrlTree(['/groups/', data.groupId]).toString();
       this.location.go(url);
-      this.localStorageService.set('activeMenu', 'bordercrosses');
+      this.localStorageService.set('activeMenu', 'groups');
     }
   }
 
@@ -145,6 +137,35 @@ export class GlobalService {
     tabs.forEach((tab, index) => {
       tab.active = false;
     });
+  }
+
+  openGroup(group, tabs, mainTabset: TabsetComponent, myDiv) {
+    let opened = -1;
+    tabs.forEach((item, index) => {
+      if (item.groupId === group.groupId) {
+        opened = index;
+      }
+    });
+
+    if (opened > -1) {
+      mainTabset.tabs[opened + 1].active = true;
+    } else {
+      this.deactivateotherTabs(tabs);
+
+      const tmpTab = {
+        title: '',
+        content: '',
+        disabled: false,
+        removable: true,
+        active: true,
+        groupId: group.groupId,
+        group: group
+      };
+
+      tabs.push(tmpTab);
+      this.createUrl(tmpTab);
+      this.triggerFalseClick(myDiv);
+    }
   }
 
   openPerson(person, tabs, mainTabset: TabsetComponent, myDiv) {
@@ -198,68 +219,6 @@ export class GlobalService {
         active: true,
         automobileId: car.automobileId,
         car: car
-      };
-
-      tabs.push(tmpTab);
-      this.createUrl(tmpTab);
-      this.triggerFalseClick(myDiv);
-    }
-  }
-
-  openTransitCar(car, tabs, mainTabset: TabsetComponent, myDiv) {
-
-    let opened = -1;
-    tabs.forEach((item, index) => {
-      if (item.transNumber === car.transNumber) {
-        opened = index;
-      }
-    });
-
-    if (opened > -1) {
-      mainTabset.tabs[opened + 1].active = true;
-    } else {
-
-      this.deactivateotherTabs(tabs);
-
-      const tmpTab = {
-        title: car.transNumber,
-        content: '',
-        disabled: false,
-        removable: true,
-        active: true,
-        transNumber: car.transNumber,
-        transit: car
-      };
-
-      tabs.push(tmpTab);
-      this.createUrl(tmpTab);
-      this.triggerFalseClick(myDiv);
-    }
-  }
-
-  openCross(cross, crossIdString, tabs, mainTabset: TabsetComponent, myDiv, libraries) {
-    let opened = -1;
-    tabs.forEach((item, index) => {
-      if (item.crossIdString === crossIdString) {
-        opened = index;
-      }
-    });
-
-    if (opened > -1) {
-      mainTabset.tabs[opened + 1].active = true;
-    } else {
-
-      this.deactivateotherTabs(tabs);
-
-      const tmpTab = {
-        title: crossIdString,
-        content: '',
-        disabled: false,
-        removable: true,
-        active: true,
-        crossIdString: crossIdString,
-        cross: cross,
-        libraries: libraries
       };
 
       tabs.push(tmpTab);
